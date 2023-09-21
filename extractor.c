@@ -69,7 +69,11 @@ int getBMPFromWebP(const uint8_t *input_data, size_t file_size,
 
 	config.options.flip = 1;
 	config.options.use_threads = 1;
-	config.output.colorspace = MODE_BGRA;
+	if (config.input.has_alpha) {
+		config.output.colorspace = MODE_BGRA;
+	} else {
+		config.output.colorspace = MODE_BGR;
+	}
 	config.output.u.RGBA.rgba = bitmap_data;
 	config.output.u.RGBA.stride = bit_length;
 	config.output.u.RGBA.size = bitmap_size;
