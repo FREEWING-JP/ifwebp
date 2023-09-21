@@ -94,6 +94,11 @@ int getBMPFromWebP(const uint8_t *input_data, size_t file_size,
 	bitmap_info_header->biCompression = BI_RGB;
 	bitmap_info_header->biSizeImage = bitmap_size;
 
+	bitmap_info_header->biXPelsPerMeter = 3780; // 96 * 39.37
+	bitmap_info_header->biYPelsPerMeter = 3780; // 96 * 39.37
+	bitmap_info_header->biClrUsed = 0;
+	bitmap_info_header->biClrImportant = 0;
+
 	LocalUnlock(*h_bitmap_data);
 	LocalUnlock(*h_bitmap_info);
 
