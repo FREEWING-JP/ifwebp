@@ -31,6 +31,7 @@ int getBMPFromWebP(const uint8_t *input_data, size_t file_size,
 
 	int width = 0;
 	int height = 0;
+	int pix_size = 0;
 	int bit_width = 0, bit_length = 0;
     size_t bitmap_size = 0;
 	WebPDecoderConfig config;
@@ -44,7 +45,12 @@ int getBMPFromWebP(const uint8_t *input_data, size_t file_size,
 
 	width = config.input.width;
 	height = config.input.height;
-	bit_width = width * 4;
+	if (config.input.has_alpha) {
+		pix_size = 4;
+	} else {
+		pix_size = 3;
+	}
+	bit_width  = width * pix_size;
 	bit_length = bit_width;
     bitmap_size = (size_t)bit_length * height;
 
@@ -90,7 +96,7 @@ int getBMPFromWebP(const uint8_t *input_data, size_t file_size,
 	bitmap_info_header->biWidth = width;
 	bitmap_info_header->biHeight = height;
 	bitmap_info_header->biPlanes = 1;
-	bitmap_info_header->biBitCount = 32;
+	bitmap_info_header->biBitCount = 8 * pix_size;
 	bitmap_info_header->biCompression = BI_RGB;
 	bitmap_info_header->biSizeImage = bitmap_size;
 
